@@ -1,0 +1,237 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
+ */
+package apppembayarangui;
+
+/**
+ *
+ * @author ASUS
+ */
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+public class AplikasiPembayaran extends javax.swing.JFrame {
+    private JTextField txtTotalBelanja, txtNominalBayar, txtKembalian;
+    private JComboBox<String> cbMetodePembayaran;
+    private JButton btnHitung, btnReset;
+    /**
+     * Creates new form AplikasiPembayaran
+     */
+    public AplikasiPembayaran() {
+        // Pengaturan JFrame
+        setTitle("APLIKASI PEMBAYARAN");
+        setSize(500, 400); // Perbesar ukuran JFrame
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
+        setLayout(new BorderLayout());
+
+        // Warna utama
+        Color warnaUtama = new Color(41, 128, 185); // Biru
+        Color warnaSekunder = new Color(236, 240, 241); // Putih keabu-abuan
+        Color warnaTombol = new Color(39, 174, 96); // Hijau
+        Color warnaTombolReset = new Color(231, 76, 60); // Merah
+
+        // Panel latar belakang
+        JPanel panel = new JPanel();
+        panel.setBackground(warnaSekunder);
+        panel.setLayout(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(10, 10, 10, 10);
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+
+        // Font besar untuk teks dan tombol
+        Font fontLabel = new Font("Arial", Font.BOLD, 16);
+        Font fontInput = new Font("Arial", Font.PLAIN, 18);
+        Font fontTombol = new Font("Arial", Font.BOLD, 16);
+
+        // Komponen GUI
+        JLabel lblTotalBelanja = new JLabel("Total Belanja (Rp):");
+        lblTotalBelanja.setFont(fontLabel);
+        lblTotalBelanja.setForeground(warnaUtama);
+        txtTotalBelanja = new JTextField(15);
+        txtTotalBelanja.setFont(fontInput);
+
+        JLabel lblMetodePembayaran = new JLabel("Metode Pembayaran:");
+        lblMetodePembayaran.setFont(fontLabel);
+        lblMetodePembayaran.setForeground(warnaUtama);
+        cbMetodePembayaran = new JComboBox<>(new String[]{"Tunai", "Debit", "Kredit"});
+        cbMetodePembayaran.setFont(fontInput);
+
+        JLabel lblNominalBayar = new JLabel("Nominal Bayar (Rp):");
+        lblNominalBayar.setFont(fontLabel);
+        lblNominalBayar.setForeground(warnaUtama);
+        txtNominalBayar = new JTextField(15);
+        txtNominalBayar.setFont(fontInput);
+
+        JLabel lblKembalian = new JLabel("Kembalian (Rp):");
+        lblKembalian.setFont(fontLabel);
+        lblKembalian.setForeground(warnaUtama);
+        txtKembalian = new JTextField(15);
+        txtKembalian.setFont(fontInput);
+        txtKembalian.setEditable(false);
+
+        btnHitung = new JButton("Hitung");
+        btnHitung.setFont(fontTombol);
+        btnHitung.setBackground(warnaTombol);
+        btnHitung.setForeground(Color.WHITE);
+
+        btnReset = new JButton("Reset");
+        btnReset.setFont(fontTombol);
+        btnReset.setBackground(warnaTombolReset);
+        btnReset.setForeground(Color.WHITE);
+
+        // Tambahkan komponen ke panel menggunakan GridBagLayout
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        panel.add(lblTotalBelanja, gbc);
+
+        gbc.gridx = 1;
+        panel.add(txtTotalBelanja, gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        panel.add(lblMetodePembayaran, gbc);
+
+        gbc.gridx = 1;
+        panel.add(cbMetodePembayaran, gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+        panel.add(lblNominalBayar, gbc);
+
+        gbc.gridx = 1;
+        panel.add(txtNominalBayar, gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy = 3;
+        panel.add(lblKembalian, gbc);
+
+        gbc.gridx = 1;
+        panel.add(txtKembalian, gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy = 4;
+        gbc.gridwidth = 1;
+        panel.add(btnHitung, gbc);
+
+        gbc.gridx = 1;
+        panel.add(btnReset, gbc);
+
+        // Tambahkan panel ke frame
+        add(panel, BorderLayout.CENTER);
+
+        // Event Listener
+        btnHitung.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                hitungPembayaran();
+            }
+        });
+
+        btnReset.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                resetForm();
+            }
+        });
+
+        setVisible(true);
+    }
+    private void hitungPembayaran() {
+        try {
+            double totalBelanja = Double.parseDouble(txtTotalBelanja.getText());
+            String metode = (String) cbMetodePembayaran.getSelectedItem();
+
+            if (metode.equals("Tunai")) {
+                double nominalBayar = Double.parseDouble(txtNominalBayar.getText());
+                if (nominalBayar >= totalBelanja) {
+                    double kembalian = nominalBayar - totalBelanja;
+                    txtKembalian.setText(String.format("%.2f", kembalian));
+                    JOptionPane.showMessageDialog(this, "Pembayaran Tunai Berhasil!");
+                } else {
+                    JOptionPane.showMessageDialog(this, "Uang Anda kurang!");
+                }
+            } else {
+                txtKembalian.setText("0.00");
+                JOptionPane.showMessageDialog(this, "Pembayaran " + metode + " Berhasil!");
+            }
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(this, "Input tidak valid! Silahkan Masukkan Nominal.");
+        }
+    }
+
+    private void resetForm() {
+        txtTotalBelanja.setText("");
+        txtNominalBayar.setText("");
+        txtKembalian.setText("");
+        cbMetodePembayaran.setSelectedIndex(0);
+    }
+
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
+    private void initComponents() {
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 355, Short.MAX_VALUE)
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 455, Short.MAX_VALUE)
+        );
+
+        pack();
+    }// </editor-fold>                        
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        // Jalankan aplikasi di Event Dispatch Thread
+        SwingUtilities.invokeLater(() -> new AplikasiPembayaran());
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(AplikasiPembayaran.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(AplikasiPembayaran.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(AplikasiPembayaran.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(AplikasiPembayaran.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new AplikasiPembayaran().setVisible(true);
+            }
+        });
+    }
+
+    // Variables declaration - do not modify                     
+    // End of variables declaration                   
+}
