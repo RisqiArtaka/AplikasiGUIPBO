@@ -1,0 +1,194 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
+ */
+package zakatmalgui;
+
+/**
+ *
+ * @author ASUS
+ */
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+public class ZakatMalCalculator extends javax.swing.JFrame {
+    // Komponen GUI
+    private JLabel lblTitle, lblTotalHarta, lblInfoNisab, lblHasil;
+    private JTextField txtTotalHarta;
+    private JButton btnHitung, btnReset;
+    private JTextArea txtHasil;
+
+    /**
+     * Creates new form AplikasiZakatMal
+     */
+    public ZakatMalCalculator() {
+        // Pengaturan dasar JFrame
+        setTitle("APLIKASI PENGHITUNG ZAKAT MAL");
+        setSize(450, 400); 
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLayout(null); // Menggunakan layout null untuk kontrol manual
+        getContentPane().setBackground(new Color(105, 105, 105)); // Background abu tua
+
+        // Label judul
+        lblTitle = new JLabel("APLIKASI PENGHITUNG ZAKAT MAL", JLabel.CENTER);
+        lblTitle.setBounds(10, 10, 420, 30);
+        lblTitle.setFont(new Font("Verdana", Font.BOLD, 18));
+        lblTitle.setForeground(Color.WHITE); // Warna teks hitam
+        add(lblTitle);
+
+        // Label dan TextField Total Harta
+        lblTotalHarta = new JLabel("Masukkan Total Harta (Rp):");
+        lblTotalHarta.setBounds(20, 60, 200, 27);
+        lblTotalHarta.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        lblTotalHarta.setForeground(Color.WHITE);
+        add(lblTotalHarta);
+
+        txtTotalHarta = new JTextField();
+        txtTotalHarta.setBounds(230, 60, 180, 27);
+        txtTotalHarta.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        add(txtTotalHarta);
+
+        // Informasi Nisab
+        lblInfoNisab = new JLabel("Nisab: 85 gram emas (setara Rp 85.000.000)");
+        lblInfoNisab.setBounds(20, 100, 400, 20);
+        lblInfoNisab.setFont(new Font("Segoe UI", Font.ITALIC, 12));
+        lblInfoNisab.setForeground(new Color(169, 169, 169)); // Abu-abu muda
+        add(lblInfoNisab);
+
+        // Label hasil perhitungan
+        lblHasil = new JLabel("Hasil Perhitungan:");
+        lblHasil.setBounds(20, 140, 200, 20);
+        lblHasil.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        lblHasil.setForeground(Color.WHITE);
+        add(lblHasil);
+
+        // Area hasil
+        txtHasil = new JTextArea();
+        txtHasil.setBounds(20, 170, 390, 100);
+        txtHasil.setEditable(false);
+        txtHasil.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        txtHasil.setBackground(Color.WHITE);
+        txtHasil.setForeground(Color.BLACK);
+        txtHasil.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        add(txtHasil);
+
+        // Tombol Hitung
+        btnHitung = new JButton("Hitung");
+        btnHitung.setBounds(100, 290, 100, 30);
+        btnHitung.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        btnHitung.setBackground(new Color(50, 205, 50)); // Hijau
+        btnHitung.setForeground(Color.WHITE);
+        add(btnHitung);
+
+        // Tombol Reset
+        btnReset = new JButton("Reset");
+        btnReset.setBounds(250, 290, 100, 30);
+        btnReset.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        btnReset.setBackground(new Color(220, 20, 60)); // Merah
+        btnReset.setForeground(Color.WHITE);
+        add(btnReset);
+
+        // Event tombol hitung
+        btnHitung.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    double totalHarta = Double.parseDouble(txtTotalHarta.getText());
+                    double nisab = 85000000; // Nisab setara 85 gram emas
+
+                    // Perhitungan zakat
+                    if (totalHarta >= nisab) {
+                        double zakat = totalHarta * 0.025;
+                        txtHasil.setText("Harta Anda Telah Memenuhi Nisab\n" +
+                                "Total Zakat Mal yang harus dibayarkan: Rp " + String.format("%,.2f", zakat));
+                    } else {
+                        txtHasil.setText("Harta Anda Belum Mencapai Nisab.\n" +
+                                "Anda Tidak wajib Membayar Zakat.");
+                    }
+                } catch (NumberFormatException ex) {
+                    txtHasil.setText("Input tidak valid! Harap masukkan angka.");
+                }
+            }
+        });
+
+        // Event tombol reset
+        btnReset.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                txtTotalHarta.setText("");
+                txtHasil.setText("");
+            }
+        });
+
+    }
+
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
+    private void initComponents() {
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 400, Short.MAX_VALUE)
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 300, Short.MAX_VALUE)
+        );
+
+        pack();
+    }// </editor-fold>                        
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        SwingUtilities.invokeLater(() -> {
+            ZakatMalCalculator calculator = new ZakatMalCalculator();
+            calculator.setVisible(true);
+        });
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(ZakatMalCalculator.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(ZakatMalCalculator.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(ZakatMalCalculator.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(ZakatMalCalculator.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+        //</editor-fold>
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new ZakatMalCalculator().setVisible(true);
+            }
+        });
+    }
+
+    // Variables declaration - do not modify                     
+    // End of variables declaration                   
+}
