@@ -1,0 +1,265 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
+ */
+package hitungbangunruang;
+
+/**
+ *
+ * @author ASUS
+ */
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+
+public class BangunRuangCalculator extends javax.swing.JFrame {
+    // Komponen GUI
+    private JLabel lblTitle, lblBalok, lblKubus, lblBola, lblKerucut, lblPrisma;
+    private JTextField txtPanjang, txtLebar, txtTinggiBalok, txtSisiKubus;
+    private JTextField txtJariBola, txtJariKerucut, txtTinggiKerucut, txtAlasPrisma, txtTinggiPrisma;
+    private JButton btnHitung;
+    private JTextArea txtHasil;
+
+    /**
+     * Creates new form BangunRuangCalculator
+     */
+    public BangunRuangCalculator() {
+        // Mengatur Frame
+        setTitle("KALKULATOR BANGUN RUANG");
+        setSize(500, 600);
+        setLayout(null);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        // Mengatur Background Menjadi Merah
+        getContentPane().setBackground(new Color(255, 0, 0)); // Warna background menjadi merah
+
+        // Title
+        lblTitle = new JLabel("PENGHITUNG LUAS DAN KELILING");
+        lblTitle.setFont(new Font("Roboto", Font.BOLD, 16));  // Font Kustom
+        lblTitle.setForeground(Color.WHITE);  // Warna Putih di font
+        lblTitle.setBounds(100, 10, 300, 25);
+        add(lblTitle);
+
+        // Input untuk Balok
+        lblBalok = new JLabel("Balok (Panjang, Lebar, Tinggi):");
+        lblBalok.setFont(new Font("Times New Roman", Font.PLAIN, 12));  // Font kustom
+        lblBalok.setForeground(Color.WHITE);  // Warna Putih di font
+        lblBalok.setBounds(10, 50, 200, 20);
+        add(lblBalok);
+        txtPanjang = new JTextField();
+        txtPanjang.setBounds(220, 50, 70, 25);
+        add(txtPanjang);
+
+        txtLebar = new JTextField();
+        txtLebar.setBounds(300, 50, 70, 25);
+        add(txtLebar);
+
+        txtTinggiBalok = new JTextField();
+        txtTinggiBalok.setBounds(380, 50, 70, 25);
+        add(txtTinggiBalok);
+
+        // Input untuk Kubus
+        lblKubus = new JLabel("Kubus (Sisi):");
+        lblKubus.setFont(new Font("Times New Roman", Font.PLAIN, 12));  // Font kustom
+        lblKubus.setForeground(Color.WHITE);  // Warna putih di font
+        lblKubus.setBounds(10, 80, 200, 20);
+        add(lblKubus);
+        
+        txtSisiKubus = new JTextField();
+        txtSisiKubus.setBounds(220, 80, 70, 25);
+        add(txtSisiKubus);
+
+        // Input untuk Bola
+        lblBola = new JLabel("Bola (Jari-jari):");
+        lblBola.setFont(new Font("Times New Roman", Font.PLAIN, 12));  // Font kustom
+        lblBola.setForeground(Color.WHITE);  // Warna Putih di font
+        lblBola.setBounds(10, 110, 200, 20);
+        add(lblBola);
+
+        txtJariBola = new JTextField();
+        txtJariBola.setBounds(220, 110, 70, 25);
+        add(txtJariBola);
+
+        // Input untuk Kerucut
+        lblKerucut = new JLabel("Kerucut (Jari-jari, Tinggi):");
+        lblKerucut.setFont(new Font("Times New Roman", Font.PLAIN, 12));  // Font kustom
+        lblKerucut.setForeground(Color.WHITE);  // Warna Putih di fon
+        lblKerucut.setBounds(10, 140, 200, 20);
+        add(lblKerucut);
+
+        txtJariKerucut = new JTextField();
+        txtJariKerucut.setBounds(220, 140, 70, 25);
+        add(txtJariKerucut);
+
+        txtTinggiKerucut = new JTextField();
+        txtTinggiKerucut.setBounds(300, 140, 70, 25);
+        add(txtTinggiKerucut);
+
+        // Input untuk Prisma Segitiga
+        lblPrisma = new JLabel("Prisma (Alas, Tinggi):");
+        lblPrisma.setFont(new Font("Times New Roman", Font.PLAIN, 12));  // Font kustom
+        lblPrisma.setForeground(Color.WHITE);  // Warna Putih di font
+        lblPrisma.setBounds(10, 170, 200, 20);
+        add(lblPrisma);
+
+        txtAlasPrisma = new JTextField();
+        txtAlasPrisma.setBounds(220, 170, 70, 25);
+        add(txtAlasPrisma);
+
+        txtTinggiPrisma = new JTextField();
+        txtTinggiPrisma.setBounds(300, 170, 70, 25);
+        add(txtTinggiPrisma);
+
+        // Tombol Hitung
+        btnHitung = new JButton("Hitung");
+        btnHitung.setBounds(200, 220, 100, 30);
+        btnHitung.setBackground(new Color(0, 0, 0));  // Warna hitam untuk tombol
+        btnHitung.setForeground(new Color(255, 255, 255));  // Warna putih untuk teks di tombol
+        add(btnHitung);
+
+        // TextArea untuk hasil
+        txtHasil = new JTextArea();
+        txtHasil.setBounds(10, 270, 460, 250);
+        txtHasil.setEditable(false);
+        txtHasil.setBackground(new Color(240, 240, 240));  // Warna abu untuk hasilnya
+        txtHasil.setForeground(new Color(0, 0, 0));    // Warna hitam untuk teks hasilnya
+        add(txtHasil);
+
+        // Event Handling
+        btnHitung.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                hitungLuasKeliling();
+            }
+        });
+        setVisible(true);
+    }
+    private void hitungLuasKeliling() {
+        // Variabel hasil
+        StringBuilder hasil = new StringBuilder();
+
+        // Balok
+        try {
+            double panjang = Double.parseDouble(txtPanjang.getText());
+            double lebar = Double.parseDouble(txtLebar.getText());
+            double tinggi = Double.parseDouble(txtTinggiBalok.getText());
+            double luas = 2 * (panjang * lebar + panjang * tinggi + lebar * tinggi);
+            double keliling = 4 * (panjang + lebar + tinggi);
+            hasil.append("Balok - Luas: ").append(luas).append(", Keliling: ").append(keliling).append("\n");
+        } catch (NumberFormatException ex) {
+            hasil.append("Input Balok tidak valid.\n");
+        }
+
+        // Kubus
+        try {
+            double sisi = Double.parseDouble(txtSisiKubus.getText());
+            double luas = 6 * sisi * sisi;
+            double keliling = 12 * sisi;
+            hasil.append("Kubus - Luas: ").append(luas).append(", Keliling: ").append(keliling).append("\n");
+        } catch (NumberFormatException ex) {
+            hasil.append("Input Kubus tidak valid.\n");
+        }
+
+        // Bola
+        try {
+            double jari = Double.parseDouble(txtJariBola.getText());
+            double luas = 4 * Math.PI * jari * jari;
+            double keliling = 2 * Math.PI * jari;  // Keliling lingkaran besar (lingkaran bola)
+            hasil.append("Bola - Luas: ").append(luas).append(", Keliling: ").append(keliling).append("\n");
+        } catch (NumberFormatException ex) {
+            hasil.append("Input Bola tidak valid.\n");
+        }
+
+        // Kerucut
+        try {
+            double jari = Double.parseDouble(txtJariKerucut.getText());
+            double tinggi = Double.parseDouble(txtTinggiKerucut.getText());
+            double s = Math.sqrt(jari * jari + tinggi * tinggi);  // Garis pelukis kerucut
+            double luas = Math.PI * jari * (jari + s);  // Luas permukaan kerucut
+            double keliling = 2 * Math.PI * jari;  // Keliling alas kerucut
+            hasil.append("Kerucut - Luas: ").append(luas).append(", Keliling: ").append(keliling).append("\n");
+        } catch (NumberFormatException ex) {
+            hasil.append("Input Kerucut tidak valid.\n");
+        }
+
+        // Prisma Segitiga
+        try {
+            double alas = Double.parseDouble(txtAlasPrisma.getText());
+            double tinggi = Double.parseDouble(txtTinggiPrisma.getText());
+            double keliling = 3 * alas + 3 * tinggi;  // Asumsi sisi prisma segitiga sama panjang
+            double luas = alas * tinggi;  // Luas alas segitiga
+            hasil.append("Prisma Segitiga - Luas: ").append(luas).append(", Keliling: ").append(keliling).append("\n");
+        } catch (NumberFormatException ex) {
+            hasil.append("Input Prisma Segitiga tidak valid.\n");
+        }
+
+        // Menampilkan hasil
+        txtHasil.setText(hasil.toString());
+    }
+
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
+    private void initComponents() {
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 360, Short.MAX_VALUE)
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 440, Short.MAX_VALUE)
+        );
+
+        pack();
+    }// </editor-fold>                        
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        new BangunRuangCalculator();
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(BangunRuangCalculator.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(BangunRuangCalculator.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(BangunRuangCalculator.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(BangunRuangCalculator.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new BangunRuangCalculator().setVisible(true);
+            }
+        });
+    }
+
+    // Variables declaration - do not modify                     
+    // End of variables declaration                   
+}
